@@ -1,56 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import ReactDOM from 'react-dom';
 import './App.css';
+import Header from './components/navigation/Header';
+import { Route, Routes } from 'react-router-dom';
+import AppBackdrop from './components/ui/AppBackdrop';
+import Login from './components/auth/Login';
+import { useSelector } from 'react-redux';
+import UserProfile from './components/userProfile/UserProfile';
+import Settings from './components/userProfile/Settings';
+import Homepage from './components/homepage/Homepage';
+import Board from './components/board/Board';
 
 function App() {
+  const loginStatus = useSelector((state) => state.ui.loginBackdrop);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div className='App'>
+      {ReactDOM.createPortal(
+        <>{loginStatus ? <Login /> : null}</>,
+        document.getElementById('modal-root')
+      )}
+      {ReactDOM.createPortal(
+        <AppBackdrop></AppBackdrop>,
+        document.getElementById('backdrop-root')
+      )}
+      <Header></Header>
+      <Routes>
+        <Route path='/' element={<Homepage />} />
+        <Route path='/profile' element={<UserProfile />} />
+        <Route path='/settings' element={<Settings />} />
+        <Route path='/board' element={<Board/>} />
+      </Routes>
     </div>
   );
 }
