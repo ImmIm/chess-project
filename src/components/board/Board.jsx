@@ -1,15 +1,18 @@
 import { Grid } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import React from 'react';
-import { Chess } from 'chess.js';
 import Piece from './Piece';
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import { useDispatch, useSelector } from 'react-redux';
+import Square from './Square';
 
-
-const chess = new Chess();
-const chessBoard = chess.board();
 
 function Board() {
+  const chessBoard = useSelector((state) => state.chess.chessBoard)
+  
   return (
+    <DndProvider backend={HTML5Backend}>
     <Box
       display='grid'
       gridTemplateColumns='repeat(8, 1fr)'
@@ -19,17 +22,12 @@ function Board() {
       {chessBoard.map((row, index) => {
         return row.map((piece, index1) => {
           return (
-            <Box
-              gridRow={index + 1}
-              gridColumn={index1 + 1}
-              key={index + index1}
-              sx={{ aspectRatio: '1/1', border: '1px solid black' }}>
-              {piece === null ? null : <Piece piece={piece}></Piece>}
-            </Box>
+            <Square piece={piece} index={index} index1={index1} key={`${index}${index1}`}></Square>
           );
         });
       })}
     </Box>
+    </DndProvider>
   );
 }
 
