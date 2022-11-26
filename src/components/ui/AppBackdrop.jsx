@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiActions } from '../../app/store';
 

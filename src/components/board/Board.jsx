@@ -1,10 +1,10 @@
-import { Grid } from '@mui/material';
-import { Box, Container } from '@mui/system';
+
+import { Box } from '@mui/system';
 import React from 'react';
-import Piece from './Piece';
+
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Square from './Square';
 
 

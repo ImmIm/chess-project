@@ -12,7 +12,7 @@ import wQ from '../../assets/figures/wQ.png';
 import wR from '../../assets/figures/wR.png';
 import wK from '../../assets/figures/wK.png';
 import { useDrag } from 'react-dnd';
-import { DragSource, DragPreviewImage } from 'react-dnd';
+import { DragPreviewImage } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { chessActions } from '../../app/store';
 
