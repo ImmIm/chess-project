@@ -17,17 +17,9 @@ import DarkSwitch from '../ui/DarkSwitch';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions, uiActions } from '../../app/store';
 import { Link, useNavigate } from 'react-router-dom';
-import img1 from '../../assets/aska.png';
-import img2 from '../../assets/goat.png';
-import img3 from '../../assets/harold.jpeg';
-import img4 from '../../assets/hospital.png';
-import img5 from '../../assets/nerd.png';
-import img6 from '../../assets/soviet.png';
 import { Divider, ListItemIcon } from '@mui/material';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-
-const avatars = [img1, img2, img3, img4, img5, img6];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,7 +28,7 @@ function Header() {
   const loginStatus = useSelector((store) => store.auth.isLogined);
   const profilePic = useSelector((store) => store.auth.userPicture);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -65,20 +57,54 @@ function Header() {
   const logoutHandler = () => {
     handleCloseUserMenu();
     dispatch(authActions.logout());
-    localStorage.removeItem('user')
-    navigate('')
+    localStorage.removeItem('user');
+    navigate('');
   };
 
-  const pages = ['Play Online', 'Play with CPU', 'Ratings', 'Info'];
+  const pages = [
+    <MenuItem key={'play online'}>
+      <Link
+        to={'/game/play_online'}
+        style={{ textDecoration: 'none', color: 'inherit' }}>
+        Play online
+      </Link>
+    </MenuItem>,
+    <MenuItem key={'play_CPU'}>
+      <Link
+        to={'/game/play_CPU'}
+        style={{ textDecoration: 'none', color: 'inherit' }}>
+        Play with CPU
+      </Link>
+    </MenuItem>,
+    <MenuItem key={'raitings'}>
+      <Link
+        to={'/raitings'}
+        style={{ textDecoration: 'none', color: 'inherit' }}>
+        Raitings
+      </Link>
+    </MenuItem>,
+    <MenuItem key={'info'}>
+      <Link to={'/info'} style={{ textDecoration: 'none', color: 'inherit' }}>
+        Info
+      </Link>
+    </MenuItem>,
+  ];
   const settings = [
-      <MenuItem key={'profile'}>
-        <Link
-          to={'/board'}
-          style={{ textAlign: 'center', textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '7px'}}>
-          <Avatar src={profilePic} /> Profile
-        </Link>
-      </MenuItem>,
-      <Divider key={'divider'}/>,
+    <MenuItem key={'profile'}>
+      <Link
+        to={'/profile'}
+        style={{
+          textAlign: 'center',
+          textDecoration: 'none',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '7px',
+        }}>
+        <Avatar src={profilePic} /> Profile
+      </Link>
+    </MenuItem>,
+    <Divider key={'divider'} />,
     ,
     <MenuItem key={'settings'}>
       <Link
@@ -149,11 +175,7 @@ function Header() {
                 display: { xs: 'block', md: 'none' },
               }}>
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link style={{ textDecoration: 'none', color: 'inherit' }}>
-                    {page}
-                  </Link>
-                </MenuItem>
+                page
               ))}
             </Menu>
           </Box>
@@ -176,19 +198,7 @@ function Header() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: 'white',
-                  display: 'block',
-                  textDecoration: 'none',
-                }}>
-                <Link style={{ textDecoration: 'none', color: 'inherit' }}>
-                  {page}
-                </Link>
-              </Button>
+              page
             ))}
           </Box>
           {loginStatus ? (

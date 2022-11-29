@@ -10,6 +10,7 @@ import Square from './Square';
 
 function Board() {
   const chessBoard = useSelector((state) => state.chess.chessBoard)
+  const turn = useSelector((state) => state.chess.turn)
   
   return (
     <DndProvider backend={HTML5Backend}>
@@ -18,7 +19,7 @@ function Board() {
       gridTemplateColumns='repeat(8, 1fr)'
       gridTemplateRows={'repeat(8, 1fr)'}
       gap={0}
-      sx={{ height: '80vh', aspectRatio: '1/1' }}>
+      sx={{ height: '80vh', aspectRatio: '1/1', transform: turn === 'w'? 'none': 'transform: scale(-1, 1)'}}>
       {chessBoard.map((row, index) => {
         return row.map((piece, index1) => {
           return (

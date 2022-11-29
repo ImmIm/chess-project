@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 import Header from './components/navigation/Header';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import AppBackdrop from './components/ui/AppBackdrop';
 import Login from './components/auth/Login';
 import { useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ function App() {
         <Route path='/' element={<Homepage />} />
         <Route path='/profile' element={<UserProfile />} />
         <Route path='/settings' element={<Settings />} />
-        <Route path='/board' element={<Board/>} />
+        <Route path='/game/play_online' element={<Board />} />
       </Routes>
     </div>
   );

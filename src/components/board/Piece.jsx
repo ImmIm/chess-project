@@ -13,12 +13,15 @@ import wR from '../../assets/figures/wR.png';
 import wK from '../../assets/figures/wK.png';
 import { useDrag } from 'react-dnd';
 import { DragPreviewImage } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { chessActions } from '../../app/store';
 
 function Piece(props) {
   const didMountRef = useRef(false);
-  const [chosen, setChosen] = useState(false);
+  const possibleMoves = useSelector((state) => state.chess.possibleMoves);
+  const selectedLocation = useSelector((state) => state.chess.selectedLocation);
+
+  console.log(selectedLocation);
 
   const [{ isDragging }, drag, preview] = useDrag(() => ({
     type: 'piece',
@@ -28,8 +31,15 @@ function Piece(props) {
   }));
   const dispatch = useDispatch();
 
-  const choosePieceHandler = () => {
-    setChosen(true);
+  const clickMoveHandler = (e) => {
+    const data = possibleMoves.filter((el) => el.to === props.location);
+    if (selectedLocation === '') {
+      chessActions.changeSelectedLocation({ location: props.location });
+    } else if (data.length === 1) {
+      dispatch(
+        chessActions.makeMove({ from: selectedLocation, to: props.location })
+      );
+    }
   };
 
   useEffect(() => {
@@ -43,11 +53,15 @@ function Piece(props) {
     didMountRef.current = true;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chosen, isDragging]);
+  }, [selectedLocation, isDragging]);
 
   const generatePiece = (piece) => {
     if (props.empty) {
-      return <div style={{ width: '100%', height: '100%' }}></div>;
+      return (
+        <div
+          onClick={clickMoveHandler}
+          style={{ width: '100%', height: '100%' }}></div>
+      );
     }
     switch (piece.color) {
       case 'b':
@@ -59,9 +73,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={bR} alt='bR' onClick={choosePieceHandler}></img>
+                  <img src={bR} alt='bR' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -72,9 +89,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={bN} alt='bN' onClick={choosePieceHandler}></img>
+                  <img src={bN} alt='bN' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -85,9 +105,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={bB} alt='bN' onClick={choosePieceHandler}></img>
+                  <img src={bB} alt='bN' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -98,9 +121,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={bQ} alt='bQ' onClick={choosePieceHandler}></img>
+                  <img src={bQ} alt='bQ' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -111,9 +137,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={bK} alt='bN' onClick={choosePieceHandler}></img>
+                  <img src={bK} alt='bN' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -124,9 +153,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={bp} alt='bp' onClick={choosePieceHandler}></img>
+                  <img src={bp} alt='bp' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -143,9 +175,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={wR} alt='wR' onClick={choosePieceHandler}></img>
+                  <img src={wR} alt='wR' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -156,9 +191,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={wN} alt='wN' onClick={choosePieceHandler}></img>
+                  <img src={wN} alt='wN' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -169,9 +207,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={wB} alt='wN' onClick={choosePieceHandler}></img>
+                  <img src={wB} alt='wN' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -182,9 +223,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={wQ} alt='wN' onClick={choosePieceHandler}></img>
+                  <img src={wQ} alt='wN' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -195,9 +239,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={wK} alt='wN' onClick={choosePieceHandler}></img>
+                  <img src={wK} alt='wN' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );
@@ -208,9 +255,12 @@ function Piece(props) {
                 <div
                   ref={drag}
                   style={{
-                    opacity: isDragging ? 0.5 : 1,
+                    opacity:
+                      isDragging || selectedLocation === props.location
+                        ? 0.5
+                        : 1,
                   }}>
-                  <img src={wp} alt='wp' onClick={choosePieceHandler}></img>
+                  <img src={wp} alt='wp' onClick={clickMoveHandler}></img>
                 </div>
               </div>
             );

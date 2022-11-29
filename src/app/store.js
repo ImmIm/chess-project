@@ -31,6 +31,7 @@ export const avatars = [
 ];
 const user = localStorage.getItem('USER');
 const game = new Chess();
+
 const chessBoard = game.board();
 
 export const canMove = (square, possibleMoves) =>{
@@ -59,6 +60,7 @@ const preloadedState = {
     chessBoard: chessBoard,
     selectedLocation: "",
     possibleMoves: [],
+    turn: 'w'
   },
 };
 
@@ -124,7 +126,9 @@ const chessSlice = createSlice({
     makeMove(state, payload){
       game.move({ from: state.selectedLocation, to: payload.payload.to })
       state.chessBoard = game.board()
-      console.log(game.ascii())
+      state.selectedLocation = ''
+      state.possibleMoves = []
+      state.turn = game.turn()
       return state
     }
   },

@@ -27,10 +27,13 @@ function Square(props) {
     [x, y]
   );
 
+
+
   return (
     <Box
       gridRow={props.index + 1}
       gridColumn={props.index1 + 1}
+      
       key={props.index + props.index1}
       ref={drop}
       sx={{
@@ -42,7 +45,7 @@ function Square(props) {
             : '#b59963',
       }}>
       {props.piece === null ? (
-        <Piece empty={true} isOver={isOver} canDrop={canDrop}></Piece>
+        <Piece empty={true} isOver={isOver} canDrop={canDrop} location={x + y}></Piece>
       ) : (
         <Piece
           empty={false}
